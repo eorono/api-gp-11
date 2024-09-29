@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function __construct(ProductRepositoryInterface $productRepositoryInterface){
         $this->productRepositoryInterface = $productRepositoryInterface;
     }
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
         $data = $this->productRepositoryInterface->index();
         return ApiResponseClass::sendResponse($data, 200);
@@ -34,7 +34,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): ?\Illuminate\Http\JsonResponse
     {
         $details = [
             'name' => $request->name,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,18 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'detail' => 'required'
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new \HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation Errors',
+            'data' => $validator->errors()
+
+        ]));
     }
 }
